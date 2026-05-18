@@ -1,0 +1,28 @@
+node_modules/
+dist/
+.env
+.env.*
+*.local
+
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Models cache
+*.pt
+*.pth
+
+# Local dev tool configs
+.claude/
+.codex/

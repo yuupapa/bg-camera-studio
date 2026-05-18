@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(ellipse 120% 80% at 70% 10%, #1a1340 0%, #0c0a22 45%, #070612 100%);
+  color: #f3f2fb;
+}
+
+@layer components {
+  .glass {
+    background: linear-gradient(180deg, rgba(28,24,58,0.72) 0%, rgba(16,13,36,0.78) 100%);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .glass-soft {
+    background: rgba(24,20,50,0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .grad-btn {
+    background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+    box-shadow: 0 6px 20px rgba(124,58,237,0.4);
+  }
+  .grad-btn:hover {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6d70f5 100%);
+  }
+
+  .icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: #9d9ac0;
+    transition: all 0.15s ease;
+  }
+  .icon-btn:hover {
+    color: #f3f2fb;
+    background: rgba(255,255,255,0.06);
+  }
+}
+
+/* Range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8b5cf6, #6366f1);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #8b5cf6;
+  box-shadow: 0 0 10px rgba(139,92,246,0.7);
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #8b5cf6;
+  box-shadow: 0 0 10px rgba(139,92,246,0.7);
+  cursor: pointer;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139,92,246,0.3);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139,92,246,0.5);
+}
+
+select {
+  color-scheme: dark;
+}
+select option {
+  background: #16122e;
+  color: #f3f2fb;
+}
+
