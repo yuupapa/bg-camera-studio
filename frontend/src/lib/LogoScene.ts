@@ -133,17 +133,17 @@ export class LogoScene {
     lineMat.opacity = 0.25 + Math.sin(t * 1.2) * 0.15
 
     // Orbit lights around the cube for moving highlights
-    this.lights[0].position.set(
+    this.lights[0]?.position.set(
       Math.cos(t * 0.4) * 4.5,
       Math.sin(t * 0.55) * 3,
       Math.cos(t * 0.35 + 1) * 3 + 2,
     )
-    this.lights[1].position.set(
+    this.lights[1]?.position.set(
       Math.cos(t * 0.3 + 2.1) * 3.5,
       2.5,
       Math.sin(t * 0.4 + 0.5) * 4,
     )
-    this.lights[2].position.set(
+    this.lights[2]?.position.set(
       -3,
       Math.cos(t * 0.5 + 1) * 3,
       Math.sin(t * 0.45 + 2) * 3.5,
