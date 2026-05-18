@@ -38,7 +38,7 @@ export class LogoScene {
 
     // ── Logo texture ─────────────────────────────────
     const loader = new THREE.TextureLoader()
-    const texture = loader.load('/logo.png')
+    const texture = loader.load(import.meta.env.BASE_URL + 'logo.png')
     texture.colorSpace = THREE.SRGBColorSpace
 
     // ── Cube ─────────────────────────────────────────

@@ -8,7 +8,7 @@ interface Props {
 export default function Logo({ size = 36, className = '' }: Props) {
   return (
     <img
-      src="/logo.png"
+      src={import.meta.env.BASE_URL + 'logo.png'}
       alt="BG Camera Studio"
       width={size}
       height={size}
