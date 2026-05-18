@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import LanguageSwitcher from './LanguageSwitcher'
 import Logo from './Logo'
+import HelpModal from './HelpModal'
 import { useT } from '../i18n'
 import { paintStore } from '../lib/paintStore'
 import { usePaintStoreVersion } from '../lib/usePaintStoreVersion'
@@ -10,8 +12,10 @@ export default function Header() {
   usePaintStoreVersion()
   const canUndo = paintStore.canUndo()
   const canRedo = paintStore.canRedo()
+  const [helpOpen, setHelpOpen] = useState(false)
 
   return (
+    <>
     <header className="relative z-30 flex items-center h-14 px-4 glass border-b border-white/[0.07] shrink-0">
       <div className="flex items-center gap-3">
         <Logo size={36} className="shadow-glow" />
@@ -39,12 +43,14 @@ export default function Header() {
           <RedoIcon />
         </button>
         <div className="w-px h-5 bg-white/10 mx-1" />
-        <button title={t('help')} className="icon-btn w-9 h-9">
+        <button title={t('help')} onClick={() => setHelpOpen(true)} className="icon-btn w-9 h-9">
           <HelpIcon />
         </button>
         <div className="w-px h-5 bg-white/10 mx-1" />
         <LanguageSwitcher />
       </div>
     </header>
+    {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} />}
+  </>
   )
 }
