@@ -24,18 +24,15 @@ export default function StatusBar() {
     }
   }, [])
 
+  // Only surface the status when a backend is actually reachable. The public
+  // (GitHub Pages) build has no backend, so showing a red "offline" badge
+  // would just look broken to users — stay hidden unless the API is online.
+  if (reachable !== 'online') return null
+
   return (
     <div className="px-4 py-2 flex items-center gap-2 text-[10px] text-studio-dim shrink-0">
-      <span
-        className={`w-1.5 h-1.5 rounded-full ${
-          reachable === 'online'
-            ? 'bg-emerald-400'
-            : reachable === 'offline'
-              ? 'bg-rose-400'
-              : 'bg-amber-400 animate-pulse'
-        }`}
-      />
-      {reachable === 'online' ? t('apiOk') : reachable === 'offline' ? t('apiOffline') : t('apiChecking')}
+      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+      {t('apiOk')}
     </div>
   )
 }
