@@ -1,21 +1,48 @@
-MIT License
+BG Camera Studio — Proprietary License
+Copyright (c) 2026 YuuPapa. All rights reserved.
 
-Copyright (c) 2026 YuuPapa
+This source code is published for transparency and for personal use only.
+By accessing this repository, you are granted a limited, non-exclusive,
+non-transferable permission to:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+  - view and read the source code; and
+  - run the application for your own personal use.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+You are NOT permitted to:
+
+  - redistribute this software or its source code, in whole or in part,
+    modified or unmodified, whether for free or for a fee;
+  - sell, sublicense, rent, lease, or otherwise commercially exploit this
+    software or any derivative work of it;
+  - publish, host, or present a copy of this application under your own
+    name, brand, or service.
+
+All rights not expressly granted above are reserved by the copyright holder.
+Any use beyond the permissions above requires prior written consent from the
+copyright holder.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+IMPLIED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM,
+DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
+
+---
+
+BG Camera Studio 利用許諾（日本語訳・参考）
+著作権 (c) 2026 YuuPapa　無断転載・再配布を禁じます。
+
+本ソースコードは透明性の確保および個人利用のみを目的として公開されています。
+本リポジトリにアクセスした方には、以下の範囲に限り利用を許可します。
+
+  - ソースコードの閲覧
+  - 個人利用の範囲でアプリケーションを実行すること
+
+以下の行為は禁止します。
+
+  - 本ソフトウェアまたはソースコードの全部・一部を、改変の有無や有償・無償を
+    問わず再配布すること
+  - 本ソフトウェアまたはその派生物を販売・サブライセンス・貸与するなど、
+    商業的に利用すること
+  - 本アプリのコピーを自身の名義・ブランド・サービスとして公開・提供すること
+
+上記以外の利用には、著作権者の書面による事前の同意が必要です。
+（英文と日本語訳に相違がある場合は英文を優先します。）
