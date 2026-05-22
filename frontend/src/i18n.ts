@@ -6,7 +6,7 @@ type Dict = Record<string, string>
 const TRANSLATIONS: Record<Language, Dict> = {
   ja: {
     appTitle: 'BG Camera Studio',
-    appSubtitle: '360° Panorama Studio',
+    appSubtitle: '360° Panorama Studio by YuuPapa',
     image: '画像',
     dropHere: '中央エリアに画像をドロップ',
     panoramaDropPrompt: '360° パノラマ画像をドロップ',
@@ -58,7 +58,7 @@ const TRANSLATIONS: Record<Language, Dict> = {
   },
   en: {
     appTitle: 'BG Camera Studio',
-    appSubtitle: '360° Panorama Studio',
+    appSubtitle: '360° Panorama Studio by YuuPapa',
     image: 'Image',
     dropHere: 'Drop an image in the center area',
     panoramaDropPrompt: 'Drop a 360° panorama image',
@@ -110,7 +110,7 @@ const TRANSLATIONS: Record<Language, Dict> = {
   },
   zh: {
     appTitle: 'BG Camera Studio',
-    appSubtitle: '360° 全景工作室',
+    appSubtitle: '360° 全景工作室 by YuuPapa',
     image: '图像',
     dropHere: '将图像拖放到中央区域',
     panoramaDropPrompt: '拖入 360° 全景图像',
