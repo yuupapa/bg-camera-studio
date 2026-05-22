@@ -60,11 +60,20 @@ const detectInitialLanguage = (): Language => {
   return 'ja'
 }
 
-export const useStudioStore = create<StudioState>((set) => ({
+export const useStudioStore = create<StudioState>((set, get) => ({
   panoramaImageUrl: null,
   panoramaFileName: null,
-  setPanoramaImage: (url, name) => set({ panoramaImageUrl: url, panoramaFileName: name }),
-  clearPanoramaImage: () => set({ panoramaImageUrl: null, panoramaFileName: null }),
+  setPanoramaImage: (url, name) => {
+    // Release the previous blob URL so each image load doesn't leak memory.
+    const prev = get().panoramaImageUrl
+    if (prev && prev !== url) URL.revokeObjectURL(prev)
+    set({ panoramaImageUrl: url, panoramaFileName: name })
+  },
+  clearPanoramaImage: () => {
+    const prev = get().panoramaImageUrl
+    if (prev) URL.revokeObjectURL(prev)
+    set({ panoramaImageUrl: null, panoramaFileName: null })
+  },
 
   cameraTool: 'pan',
   setCameraTool: (tool) => set({ cameraTool: tool }),

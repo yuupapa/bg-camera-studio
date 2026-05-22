@@ -28,6 +28,13 @@ export default function ImageDropZone({ panoramaScene, renderer }: Props) {
       setPanoramaImage(url, file.name)
       if (panoramaScene) {
         const texture = await loadTextureFromFile(file, renderer ?? undefined)
+        // The image may have been cleared or replaced while decoding —
+        // each createObjectURL call yields a unique URL, so if the store no
+        // longer holds ours, this load is stale: drop the texture.
+        if (useStudioStore.getState().panoramaImageUrl !== url) {
+          texture.dispose()
+          return
+        }
         panoramaScene.loadTexture(texture)
       }
     },

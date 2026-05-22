@@ -80,6 +80,7 @@ export class PaintStore {
   }
 
   undo() {
+    this.flushScaleSession()
     const prev = this.history.pop()
     if (!prev) return
     this.redoStack.push(this.deepSnapshot())
@@ -92,6 +93,7 @@ export class PaintStore {
   }
 
   redo() {
+    this.flushScaleSession()
     const next = this.redoStack.pop()
     if (!next) return
     this.history.push(this.deepSnapshot())
@@ -153,6 +155,8 @@ export class PaintStore {
     if (moved && this.dragSnapshot) {
       this.history.push(this.dragSnapshot)
       if (this.history.length > HISTORY_LIMIT) this.history.shift()
+      // A new history entry invalidates any pending redo branch.
+      this.redoStack = []
     }
     this.dragSnapshot = null
   }
@@ -170,6 +174,16 @@ export class PaintStore {
 
   private scaleSession: { index: number; snapshot: HistoryEntry; timeoutId: number } | null = null
 
+  /** Commit a pending scale session's snapshot to history immediately. */
+  private flushScaleSession() {
+    if (!this.scaleSession) return
+    window.clearTimeout(this.scaleSession.timeoutId)
+    this.history.push(this.scaleSession.snapshot)
+    if (this.history.length > HISTORY_LIMIT) this.history.shift()
+    this.redoStack = []
+    this.scaleSession = null
+  }
+
   scaleText(index: number, factor: number) {
     const t = this.texts[index]
     if (!t) return
@@ -178,6 +192,7 @@ export class PaintStore {
         window.clearTimeout(this.scaleSession.timeoutId)
         this.history.push(this.scaleSession.snapshot)
         if (this.history.length > HISTORY_LIMIT) this.history.shift()
+        this.redoStack = []
       }
       this.scaleSession = {
         index,
@@ -191,7 +206,11 @@ export class PaintStore {
       if (!s) return
       this.history.push(s.snapshot)
       if (this.history.length > HISTORY_LIMIT) this.history.shift()
+      // A new history entry invalidates any pending redo branch.
+      this.redoStack = []
       this.scaleSession = null
+      // Notify so undo/redo button state reflects the committed entry.
+      this.notify()
     }, 400)
     t.worldSize = Math.max(0.005, Math.min(3, t.worldSize * factor))
     this.notify()
@@ -221,6 +240,7 @@ export class PaintStore {
   }
 
   clear() {
+    this.flushScaleSession()
     const had = this.strokes.length > 0 || this.texts.length > 0 || this.current !== null
     if (had) this.pushHistory()
     this.strokes = []

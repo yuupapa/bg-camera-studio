@@ -29,13 +29,22 @@ export function resizeRenderer(
 }
 
 export function disposeScene(scene: THREE.Scene) {
+  // Material.dispose() does not free attached textures — release the common
+  // texture slots so this generic helper doesn't leak when reused.
+  const disposeMaterial = (m: THREE.Material) => {
+    const std = m as THREE.MeshStandardMaterial
+    std.map?.dispose()
+    std.normalMap?.dispose()
+    std.envMap?.dispose()
+    m.dispose()
+  }
   scene.traverse((obj) => {
     if (obj instanceof THREE.Mesh) {
       obj.geometry.dispose()
       if (Array.isArray(obj.material)) {
-        obj.material.forEach((m) => m.dispose())
+        obj.material.forEach(disposeMaterial)
       } else {
-        obj.material.dispose()
+        disposeMaterial(obj.material)
       }
     }
   })

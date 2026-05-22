@@ -156,7 +156,14 @@ export class LogoScene {
       if (obj instanceof THREE.Mesh) {
         obj.geometry.dispose()
         const mats = Array.isArray(obj.material) ? obj.material : [obj.material]
-        mats.forEach((m) => m.dispose())
+        mats.forEach((m) => {
+          // Material.dispose() does not free attached textures — release the
+          // logo map and the PMREM-generated envMap explicitly.
+          const std = m as THREE.MeshStandardMaterial
+          std.map?.dispose()
+          std.envMap?.dispose()
+          m.dispose()
+        })
       }
       if (obj instanceof THREE.LineSegments) {
         obj.geometry.dispose()
