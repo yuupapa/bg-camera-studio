@@ -84,8 +84,13 @@ export default function App() {
     const rndr = rendererRef.current
     if (!rndr) return
     if (!panoramaRef.current) {
-      const initFov = useStudioStore.getState().panoramaFov
-      const pano = new PanoramaScene(rndr, aspectRef.current, initFov)
+      const st = useStudioStore.getState()
+      const pano = new PanoramaScene(
+        rndr,
+        aspectRef.current,
+        st.panoramaFov,
+        st.exportWidth / st.exportHeight,
+      )
       panoramaRef.current = pano
       setPanoramaScene(pano)
       setExportScene(pano.scene)
@@ -144,7 +149,7 @@ export default function App() {
   }, [])
 
   const handleFovChange = useCallback((fov: number) => {
-    panoramaRef.current?.setFov(fov)
+    panoramaRef.current?.setExportFov(fov)
   }, [])
 
   const handlePaintCanvasReady = useCallback((canvas: HTMLCanvasElement | null) => {
@@ -219,6 +224,13 @@ export default function App() {
       if (state.cameraRoll !== prev.cameraRoll) {
         panoramaRef.current?.setRoll(state.cameraRoll)
       }
+      // Output preset / custom size change → keep the guide region invariant
+      if (
+        state.exportWidth !== prev.exportWidth ||
+        state.exportHeight !== prev.exportHeight
+      ) {
+        panoramaRef.current?.setExportAspect(state.exportWidth / state.exportHeight)
+      }
     })
     return unsub
   }, [])
@@ -234,7 +246,7 @@ export default function App() {
       const next = Math.max(30, Math.min(120, cur + (e.deltaY > 0 ? 3 : -3)))
       if (next !== cur) {
         useStudioStore.getState().setPanoramaFov(next)
-        panoramaRef.current?.setFov(next)
+        panoramaRef.current?.setExportFov(next)
       }
     }
     el.addEventListener('wheel', onWheel, { passive: false })

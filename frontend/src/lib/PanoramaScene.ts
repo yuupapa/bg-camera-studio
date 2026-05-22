@@ -2,6 +2,31 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { disposeScene } from './three-setup'
 
+/**
+ * Compute the on-screen camera's vertical FOV so that the output-guide
+ * rectangle (export aspect, contain-fit into the canvas) always subtends
+ * exactly `exportFov` vertically — i.e. the framed region is independent
+ * of the window / canvas size.
+ *
+ *  - canvasAspect >= exportAspect → guide frame fills the canvas height,
+ *    so the canvas vertical FOV must equal exportFov.
+ *  - canvasAspect <  exportAspect → guide frame fills the canvas width,
+ *    so we match the horizontal FOV instead and back-solve the vertical.
+ *
+ * Continuous at canvasAspect === exportAspect (both branches give exportFov).
+ */
+export function deriveCanvasFov(
+  exportFov: number,
+  exportAspect: number,
+  canvasAspect: number,
+): number {
+  if (canvasAspect >= exportAspect) return exportFov
+  const tanHalfExport = Math.tan((exportFov * Math.PI) / 360) // tan(fov/2)
+  const tanHalfHoriz = tanHalfExport * exportAspect
+  const halfCanvasRad = Math.atan(tanHalfHoriz / canvasAspect)
+  return (halfCanvasRad * 360) / Math.PI
+}
+
 export class PanoramaScene {
   readonly scene = new THREE.Scene()
   readonly camera: THREE.PerspectiveCamera
@@ -10,13 +35,28 @@ export class PanoramaScene {
   private roll = 0
   private rollQuat = new THREE.Quaternion()
 
-  constructor(renderer: THREE.WebGLRenderer, aspect: number, fov = 50) {
+  // Canonical capture parameters — window-size independent.
+  private exportFov: number
+  private exportAspect: number
+  private canvasAspect: number
+
+  constructor(
+    renderer: THREE.WebGLRenderer,
+    aspect: number,
+    fov = 50,
+    exportAspect = 16 / 9,
+  ) {
     // Transparent so the decorative CSS backdrop shows in the empty state.
     this.scene.background = null
+
+    this.exportFov = fov
+    this.exportAspect = exportAspect
+    this.canvasAspect = aspect
 
     this.camera = new THREE.PerspectiveCamera(fov, aspect, 0.1, 2000)
     this.camera.position.set(0, 0, 0.01)
     this.camera.lookAt(0, 0, 0)
+    this.applyDerivedFov()
 
     this.controls = new OrbitControls(this.camera, renderer.domElement)
     this.controls.enablePan = false
@@ -51,14 +91,28 @@ export class PanoramaScene {
     }
   }
 
-  setFov(fov: number) {
-    this.camera.fov = fov
+  /** Recompute the on-screen camera FOV from the canonical capture params. */
+  private applyDerivedFov() {
+    this.camera.fov = deriveCanvasFov(this.exportFov, this.exportAspect, this.canvasAspect)
+    this.camera.aspect = this.canvasAspect
     this.camera.updateProjectionMatrix()
   }
 
+  /** Vertical FOV of the exported region (FOV slider / wheel zoom). */
+  setExportFov(fov: number) {
+    this.exportFov = fov
+    this.applyDerivedFov()
+  }
+
+  /** Aspect ratio of the active output preset. */
+  setExportAspect(aspect: number) {
+    this.exportAspect = aspect
+    this.applyDerivedFov()
+  }
+
   setAspect(aspect: number) {
-    this.camera.aspect = aspect
-    this.camera.updateProjectionMatrix()
+    this.canvasAspect = aspect
+    this.applyDerivedFov()
   }
 
   setRoll(roll: number) {

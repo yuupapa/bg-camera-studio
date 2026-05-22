@@ -13,6 +13,7 @@ export default function ExportButton({ scene, camera }: Props) {
   const t = useT()
   const exportWidth = useStudioStore((s) => s.exportWidth)
   const exportHeight = useStudioStore((s) => s.exportHeight)
+  const panoramaFov = useStudioStore((s) => s.panoramaFov)
   const isExporting = useStudioStore((s) => s.isExporting)
   const setExporting = useStudioStore((s) => s.setExporting)
   const panoramaImageUrl = useStudioStore((s) => s.panoramaImageUrl)
@@ -21,7 +22,7 @@ export default function ExportButton({ scene, camera }: Props) {
     if (!scene || !camera || isExporting) return
     setExporting(true)
     requestAnimationFrame(() => {
-      exportPng(scene, camera, exportWidth, exportHeight)
+      exportPng(scene, camera, exportWidth, exportHeight, panoramaFov)
       setExporting(false)
     })
   }

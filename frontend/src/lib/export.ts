@@ -6,8 +6,8 @@ export function exportPng(
   camera: THREE.PerspectiveCamera,
   width: number,
   height: number,
+  exportFov: number,
 ) {
-  const previewAspect = camera.aspect
   const exportAspect = width / height
 
   const offRenderer = new THREE.WebGLRenderer({
@@ -20,15 +20,12 @@ export function exportPng(
   offRenderer.outputColorSpace = THREE.SRGBColorSpace
   offRenderer.toneMapping = THREE.NoToneMapping
 
+  // The exported region is defined purely by the FOV setting and the output
+  // aspect ratio — never by the on-screen window/canvas size. The cloned
+  // camera keeps the current orientation (including tilt/roll).
   const exportCamera = camera.clone()
-  if (exportAspect <= previewAspect) {
-    exportCamera.aspect = exportAspect
-  } else {
-    const previewFovRad = (camera.fov * Math.PI) / 180
-    const newFovRad = 2 * Math.atan(Math.tan(previewFovRad / 2) * (previewAspect / exportAspect))
-    exportCamera.fov = (newFovRad * 180) / Math.PI
-    exportCamera.aspect = exportAspect
-  }
+  exportCamera.fov = exportFov
+  exportCamera.aspect = exportAspect
   exportCamera.updateProjectionMatrix()
 
   offRenderer.render(scene, exportCamera)
