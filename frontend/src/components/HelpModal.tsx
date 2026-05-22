@@ -304,7 +304,14 @@ export default function HelpModal({ onClose }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3 border-t border-white/[0.06] shrink-0 flex justify-end">
+        <div className="px-5 py-3 border-t border-white/[0.06] shrink-0 flex items-center justify-between">
+          <span className="text-[10px] text-studio-dim">
+            {lang === 'ja'
+              ? '© 2026 YuuPapa — 個人利用のみ。再配布・販売禁止'
+              : lang === 'zh'
+                ? '© 2026 YuuPapa — 仅限个人使用，禁止再分发或销售'
+                : '© 2026 YuuPapa — Personal use only. No redistribution or resale.'}
+          </span>
           <button
             onClick={onClose}
             className="text-xs px-4 py-1.5 rounded-lg border border-white/10 text-studio-muted hover:text-studio-text hover:bg-white/5 transition-all"
